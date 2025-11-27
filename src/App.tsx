@@ -1,21 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+const apiKey = import.meta.env.VITE_API_KEY;
 import "./App.css";
-
-const tracks = [
-  {
-    id: 1,
-    title: "Musicfun soundtrack",
-    url: "https://musicfun.it-incubator.app/api/samurai-way-soundtrack.mp3",
-  },
-  {
-    id: 2,
-    title: "Musicfun soundtrack instrumental",
-    url: " https://musicfun.it-incubator.app/api/samurai-way-soundtrack-instrumental.mp3",
-  },
-];
 
 export function App() {
   const [selectedTrackId, setSelectedTrackId] = useState(null);
+  const [tracks, setTracks] = useState(null);
+
+  useEffect(() => {
+    console.log("effect");
+    fetch("https://musicfun.it-incubator.app/api/1.0/playlists/tracks", {
+      headers: {
+        "api-key": apiKey,
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => setTracks(json.data));
+  }, []);
 
   if (tracks === null) {
     return (
@@ -43,7 +43,7 @@ export function App() {
           setSelectedTrackId(null);
         }}
       >
-        Reload
+        reset soundtrack
       </button>
       <ul>
         {tracks.map((track) => (
@@ -59,9 +59,9 @@ export function App() {
                 setSelectedTrackId(track.id);
               }}
             >
-              {track.title}
+              {track.attributes.title}
             </div>
-            <audio controls src={track.url}></audio>
+            <audio controls src={track.attributes.attachments[0].url}></audio>
           </li>
         ))}
       </ul>
