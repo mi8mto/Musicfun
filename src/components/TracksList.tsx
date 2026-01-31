@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import { TrackItem } from "./TrackItem.tsx";
 const apiKey = import.meta.env.VITE_API_KEY;
 
-export function TracksList(props) {
+export function TracksList({ selectedTrackId, onTrackSelect }) {
   const [tracks, setTracks] = useState(null);
 
   useEffect(() => {
@@ -31,32 +32,25 @@ export function TracksList(props) {
   }
 
   const handleResetClick = () => {
-    props.onTrackSelect?.(null);
+    onTrackSelect?.(null);
   };
+  const handleClick = (trackId) => {
+    onTrackSelect?.(trackId);
+  };
+
   return (
     <div>
       <hr />
       <button onClick={handleResetClick}>reset</button>
       <ul>
         {tracks.map((track) => {
-          const handleClick = () => {
-            props.onTrackSelect?.(track.id);
-          };
-
           return (
-            <li
+            <TrackItem
               key={track.id}
-              style={{
-                border:
-                  track.id === props.selectedTrackId
-                    ? "1px solid orange"
-                    : "none",
-              }}
-            >
-              <div onClick={handleClick}>{track.attributes.title}</div>
-
-              <audio controls src={track.attributes.attachments[0].url}></audio>
-            </li>
+              track={track}
+              isSelected={track.id === selectedTrackId}
+              onSelect={handleClick}
+            />
           );
         })}
       </ul>
