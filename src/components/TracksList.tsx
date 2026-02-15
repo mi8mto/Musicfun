@@ -2,8 +2,15 @@ import { useState, useEffect } from "react";
 import { TrackItem } from "./TrackItem.tsx";
 const apiKey = import.meta.env.VITE_API_KEY;
 
+type TrackListItemOutput = {
+  id: string;
+  title: string;
+  artist: string;
+  duration: number;
+};
+
 export function TracksList({ selectedTrackId, onTrackSelect }) {
-  const [tracks, setTracks] = useState(null);
+  const [tracks, setTracks] = useState<Array<TrackListItemOutput> | null>(null);
 
   useEffect(() => {
     fetch("https://musicfun.it-incubator.app/api/1.0/playlists/tracks", {
@@ -34,7 +41,7 @@ export function TracksList({ selectedTrackId, onTrackSelect }) {
   const handleResetClick = () => {
     onTrackSelect?.(null);
   };
-  const handleClick = (trackId) => {
+  const handleClick = (trackId: string) => {
     onTrackSelect?.(trackId);
   };
 

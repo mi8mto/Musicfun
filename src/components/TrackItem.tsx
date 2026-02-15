@@ -1,6 +1,6 @@
 export function TrackItem({ onSelect, track, isSelected }) {
   const handleClick = () => {
-    onSelect?.(track.id);
+    props.onSelect?.(track.id);
   };
   return (
     <li

@@ -1,8 +1,17 @@
 import { useState, useEffect } from "react";
 const apiKey = import.meta.env.VITE_API_KEY;
 
+type GetTrackDetailOutputData = {
+  id: string;
+  attributes: {
+    title: string;
+    lyrics: string | null;
+  };
+};
+
 export function TrackDetail({ trackId }) {
-  const [selectedTrack, setSelectedTrack] = useState(null);
+  const [selectedTrack, setSelectedTrack] =
+    useState<GetTrackDetailOutputData | null>(null);
 
   useEffect(() => {
     if (!trackId) {
