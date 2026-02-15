@@ -9,7 +9,11 @@ type GetTrackDetailOutputData = {
   };
 };
 
-export function TrackDetail({ trackId }) {
+type Props = {
+  trackId: string | null;
+};
+
+export function TrackDetail({ trackId }: Props) {
   const [selectedTrack, setSelectedTrack] =
     useState<GetTrackDetailOutputData | null>(null);
 

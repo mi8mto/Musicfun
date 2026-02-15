@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
-import { TrackItem } from "./TrackItem.tsx";
+import { TrackItem, type TrackListItemOutput } from "./TrackItem.tsx";
 const apiKey = import.meta.env.VITE_API_KEY;
 
-type TrackListItemOutput = {
-  id: string;
-  title: string;
-  artist: string;
-  duration: number;
+type Props = {
+  selectedTrackId: string | null;
+  onTrackSelect?: (id: string | null) => void;
 };
 
-export function TracksList({ selectedTrackId, onTrackSelect }) {
+export function TracksList({ selectedTrackId, onTrackSelect }: Props) {
   const [tracks, setTracks] = useState<Array<TrackListItemOutput> | null>(null);
 
   useEffect(() => {

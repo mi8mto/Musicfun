@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+const apiKey = import.meta.env.VITE_API_KEY;
+
 import "./App.css";
 
 export function App() {
@@ -19,7 +21,7 @@ export function App() {
       }
     )
       .then((res) => res.json())
-      .then((json) => setSelectedTrack(json.data));
+      .then((json) => setSelectedTrackId(json.data));
   }, [selectedTrackId]);
 
   return (
@@ -28,7 +30,6 @@ export function App() {
       <button
         onClick={() => {
           setSelectedTrackId(null);
-          setSelectedTrack(null);
         }}
       >
         reset soundtrack
