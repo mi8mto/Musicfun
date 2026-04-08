@@ -1,13 +1,6 @@
 import { useState, useEffect } from "react";
-const apiKey = import.meta.env.VITE_API_KEY;
-
-type GetTrackDetailOutputData = {
-  id: string;
-  attributes: {
-    title: string;
-    lyrics: string | null;
-  };
-};
+import { getTrack } from "../dal/api";
+import type { GetTrackDetailsOutputData } from "../dal/api";
 
 type Props = {
   trackId: string | null;
@@ -15,7 +8,7 @@ type Props = {
 
 export function TrackDetail({ trackId }: Props) {
   const [selectedTrack, setSelectedTrack] =
-    useState<GetTrackDetailOutputData | null>(null);
+    useState<GetTrackDetailsOutputData | null>(null);
 
   useEffect(() => {
     if (!trackId) {
@@ -23,16 +16,7 @@ export function TrackDetail({ trackId }: Props) {
       return;
     }
 
-    fetch(
-      "https://musicfun.it-incubator.app/api/1.0/playlists/tracks/" + trackId,
-      {
-        headers: {
-          "api-key": apiKey,
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((json) => setSelectedTrack(json.data));
+    getTrack(trackId).then((json) => setSelectedTrack(json.data));
   }, [trackId]);
 
   return (
